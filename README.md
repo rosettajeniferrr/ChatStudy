@@ -73,6 +73,59 @@ Client-server chat applications are versatile tools that facilitate real-time co
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
 
+## ALGORITHM:
+
+1.  Start the experiment
+2.  Initialize the server and bind it to a port.
+3.  Set the server to listen for client requests.
+4.  Initialize the client.
+5.  Client sends connection request to server.
+6.  Server accepts the client connection.
+7.  Client sends chat message to server.
+8.  Server receives and forwards the message to client.
+9.  Close the connection and Stop
+
+## PROGRAM:
+
+## Client.py:
+```
+import socket
+
+host = "127.0.0.1"
+port = 12345
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect((host, port))
+while True:
+    message = input("CLIENT: ")
+    client_socket.send(message.encode())
+    data = client_socket.recv(1024).decode()
+    print("SERVER:", data)
+```
+
+## Server.py
+```
+import socket
+host = "127.0.0.1"
+port = 12345
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((host, port))
+server_socket.listen(1)
+print("Server is listening on", host, ":", port)
+conn, addr = server_socket.accept()
+print("Connection from:", addr)
+while True:
+    data = conn.recv(1024).decode()
+    if not data:
+        break
+    print("CLIENT:", data)
+    message = input("SERVER: ")
+    conn.send(message.encode())
+conn.close()
+```
+## OUTPUT:
+
+<img width="1121" height="361" alt="image" src="https://github.com/user-attachments/assets/0e943358-806a-4eda-b593-6838530a9995" />
+
 
 ## Result:
 
