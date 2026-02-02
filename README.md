@@ -137,11 +137,8 @@ conn.close()
 server_socket.close()
 ```
 ## OUTPUT:
-
-
-
+<img width="1103" height="353" alt="image" src="https://github.com/user-attachments/assets/3a29a0d7-2e16-4fe2-8b57-5df1b37ae975" />
 
 ## Result:
-
 Thus the study on Client Server Chat Applications has been performed
 
