@@ -89,42 +89,56 @@ Client-server chat applications are foundational to real-time communication over
 
 ## Client.py:
 ```
-import socket
-
-host = "127.0.0.1"
-port = 12345
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((host, port))
+# Import socket module 
+import socket             
+# Create a socket object 
+s = socket.socket()         
+# Define the port on which you want to connect 
+port = 12345                
+# connect to the server on local computer 
+s.connect(('169.254.101.23', port)) 
+#s.setblocking(False)
+# receive data from the server and decoding to get the string.
+s.send("Thanks for accpeting the connection. ".encode())
 while True:
-    message = input("CLIENT: ")
-    client_socket.send(message.encode())
-    data = client_socket.recv(1024).decode()
-    print("SERVER:", data)
+    d = s.recv(1024).decode()
+    print ("Server Says: ",d)
+    m = input("Enter ur msg:")
+    s.send(m.encode())
 ```
 
 ## Server.py
 ```
 import socket
-host = "127.0.0.1"
-port = 12345
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+host = '0.0.0.0'  
+port = 12345
+
 server_socket.bind((host, port))
+
 server_socket.listen(1)
-print("Server is listening on", host, ":", port)
+print("Server is waiting for connection...")
+
 conn, addr = server_socket.accept()
-print("Connection from:", addr)
+print("Connected to client:", addr)
+
 while True:
-    data = conn.recv(1024).decode()
-    if not data:
+    client_msg = conn.recv(1024).decode()
+    if client_msg.lower() == "exit":
+        print("Client disconnected.")
         break
-    print("CLIENT:", data)
-    message = input("SERVER: ")
-    conn.send(message.encode())
+    print("Client:", client_msg)
+
+    server_msg = input("Server: ")
+    conn.send(server_msg.encode())
+
 conn.close()
+server_socket.close()
 ```
 ## OUTPUT:
 
-<img width="1121" height="361" alt="image" src="https://github.com/user-attachments/assets/0e943358-806a-4eda-b593-6838530a9995" />
+
 
 
 ## Result:
